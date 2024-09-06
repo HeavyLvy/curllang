@@ -2,7 +2,6 @@ import string
 from rich.console import Console
 from rich.syntax import Syntax
 
-# install(show_locals=True)
 console = Console()
 
 
