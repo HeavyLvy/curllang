@@ -115,7 +115,7 @@ def get_last_five_lines(text):
         return text
 
 
-def parse_code(input_code: str):
+def parse_code(input_code: str, verbose: int = 0):
     processed_code = ''
     found_errors = []
 
@@ -144,10 +144,12 @@ def parse_code(input_code: str):
             token_index = error['error']['token_index']
 
             console.print(f"[{error_index}] {ERROR_CODES[error['error']['code']]['message']}", style="bold red", highlight=False)
-            console.print(f'    {error['error']['message']}', style="bold red", highlight=False)
-            console.print(f"    {ERROR_CODES[error['error']['code']]['description']}", style="bold red", highlight=False)
+            if verbose > 0:
+                console.print(f'    {error['error']['message']}', style="bold red", highlight=False)
+            if verbose > 1:
+                console.print(f"    {ERROR_CODES[error['error']['code']]['description']}", style="bold red", highlight=False)
             console.print(error['code'])
-            console.print(' ' * (token_index + 2 + len(str(error['line']))) + '^', style='bold yellow')
+            console.print(' ' * (token_index + 3 + len(str(error['line']))) + '^', style='bold yellow')
 
 
 ERROR_CODES = {
