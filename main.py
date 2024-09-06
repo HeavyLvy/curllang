@@ -2,7 +2,7 @@ import lexer
 
 example_code = """
 1 == 2
-"my sring
+print("hello there)
 """
 
 lexer.lex_code(example_code)

@@ -2,12 +2,15 @@ import string
 from rich.console import Console
 from rich.syntax import Syntax
 from dataclasses import dataclass
+
 console = Console()
+
 
 @dataclass
 class Token:
     token: str
     value: str
+
 
 @dataclass
 class ErrorReport:
@@ -18,10 +21,10 @@ class ErrorReport:
 
 ERROR_CODES = {
     -1: {
-        "message": "Exception Occured.",
-        "description": "An exception, can be casued by different reasons.",
+        "message": "Exception Occurred.",
+        "description": "An exception, can be caused by different reasons.",
     },
-    1: {"message": "Invalid Syntax.", "description": "Caused by inproper syntax."},
+    1: {"message": "Invalid Syntax.", "description": "Caused by improper syntax."},
     2: {
         "message": "Invalid Syntax.",
         "description": 'Caused if there is more than 2 equal signs in the expression eg "x === y", "1 ======== 53".',
@@ -31,9 +34,9 @@ ERROR_CODES = {
         "description": "Caused if there is more than 1 dot found in a floating number.",
     },
     4: {
-        'message': 'Invalid Syntax.',
-        'description': 'Caused if ending qoute was not found.'
-    }
+        "message": "Invalid Syntax.",
+        "description": "Caused if ending qoute was not found.",
+    },
 }
 
 
@@ -51,7 +54,7 @@ def lex_line(line: str):
             "message": message,
             "code": error_code,
             "token_index": token_index - 1,
-            # We subtract one because the char still gets proccsed after the error is called, incrementing the index by one. (which would be the next index, that we dont want).
+            # We subtract one because the char still gets processed after the error is called, incrementing the index by one. (which would be the next index, that we dont want).
         }
         error_code = error_code
 
@@ -131,26 +134,27 @@ def lex_line(line: str):
                 append_token()
             else:
                 token_sequence.append(char)
-        if flag == 'string':
+        if flag == "string":
             if char != '"':
                 token_sequence.append(char)
             else:
                 found_end_of_string = True
                 append_token()
         if flag == "string_start":
-
             if char != '"':
-                flag = 'string'
+                flag = "string"
                 token_sequence.append(char)
-    
-    if flag and i == len(line) - 1:
-        if flag == 'string' and not found_end_of_string:
+
+    if flag:
+        if flag == "string" and not found_end_of_string:
             raise_parse_error(
-                'Expected an ending qoute', i+1, 4 # we add 1 to i cause we expect the qoute to be on the next index/char
+                "Expected an ending qoute",
+                i + 2,
+                4,  # we add 2 to i because we expect the qoute to be on the next index/char
             )
             append_token()
         append_token()
-    
+
     result["tokens"] = parsed_tokens
     return result
 
