@@ -23,7 +23,7 @@ def parse_line(line: str):
         }
         error_code = error_code
 
-    for i, char in enumerate(line):
+    for token_index, char in enumerate(line):
         if error_found:
             break
 
@@ -67,7 +67,7 @@ def parse_line(line: str):
                 token_sequence.append(char)
         if flag == "float":
             if token_sequence.count(".") > 1:
-                raise_parse_error("No such data type with more than 1 dot.", i, 3)
+                raise_parse_error("No such data type with more than 1 dot.", token_index, 3)
             if char not in string.digits and char != ".":
                 append_token()
             else:
@@ -90,7 +90,7 @@ def parse_line(line: str):
                     flag = "comparison"
                 elif len(token_sequence) > 2:
                     raise_parse_error(
-                        "No such operation for more than 2 equal signs", i, 2
+                        "No such operation for more than 2 equal signs", token_index, 2
                     )
 
                 append_token()
@@ -98,7 +98,7 @@ def parse_line(line: str):
                 token_sequence.append(char)
 
         # Append the token if there are no more characters to parse.
-        if flag and i == len(line) - 1:
+        if flag and token_index == len(line) - 1:
             append_token()
 
     result["tokens"] = parsed_tokens
