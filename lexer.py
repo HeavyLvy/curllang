@@ -10,10 +10,11 @@ class Token:
     value: str
 
 @dataclass
-class Error:
+class ErrorReport:
     message: str
     description: str
     token_index: int
+
 
 ERROR_CODES = {
     -1: {
@@ -62,7 +63,6 @@ def lex_line(line: str):
         def append_token():
             nonlocal token_sequence, flag
             value = "".join(token_sequence)
-            # parsed_tokens.append({"flag": flag, "value": value})
             parsed_tokens.append(Token(flag, value))
             flag = None
             token_sequence = []
@@ -138,17 +138,19 @@ def lex_line(line: str):
                 found_end_of_string = True
                 append_token()
         if flag == "string_start":
+
             if char != '"':
                 flag = 'string'
                 token_sequence.append(char)
-        # Append the token if there are no more characters to parse.
-        if flag and i == len(line) - 1:
-            if flag == 'string' and not found_end_of_string:
-                raise_parse_error(
-                    'Expected an ending qoute', i+1, 4 # we add 1 to i cause we expect the qoute to be on the next index/char
-                )
+    
+    if flag and i == len(line) - 1:
+        if flag == 'string' and not found_end_of_string:
+            raise_parse_error(
+                'Expected an ending qoute', i+1, 4 # we add 1 to i cause we expect the qoute to be on the next index/char
+            )
             append_token()
-
+        append_token()
+    
     result["tokens"] = parsed_tokens
     return result
 
