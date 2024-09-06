@@ -106,7 +106,7 @@ def parse_line(line: str):
     return result
 
 
-def get_last_five_lines(text):
+def get_last_five_lines(text: str):
     lines = text.splitlines()
     if len(lines) > 5:
         return "\n".join(lines[-5:])
@@ -114,7 +114,7 @@ def get_last_five_lines(text):
         return text
 
 
-def output_parsing_errors(errors, verbose):
+def output_parsing_errors(errors, verbose: int):
     console.print(
         f"[white on red bold]{len(errors)} parsing error{'s' if len(errors) > 1 else ''} raised.",
         highlight=False,
