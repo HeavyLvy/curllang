@@ -138,12 +138,12 @@ def parse_code(input_code: str, verbose: int = 0):
 
     # Output the errors
     if found_errors:
-        console.print(f"[white on red bold]Found {len(found_errors)} error{'s' if len(found_errors) > 1 else ''}.",
+        console.print(f"[white on red bold]{len(found_errors)} parsing error{'s' if len(found_errors) > 1 else ''} raised.",
                       highlight=False)
         for error_index, error in enumerate(found_errors, 1):
             token_index = error['error']['token_index']
 
-            console.print(f"[{error_index}] {ERROR_CODES[error['error']['code']]['message']}", style="bold red", highlight=False)
+            console.print(f"[[white]{error_index}[red]] {ERROR_CODES[error['error']['code']]['message']} Error Code: {error['error']['code']}", style="bold red", highlight=False)
             if verbose > 0:
                 console.print(f'    {error['error']['message']}', style="bold red", highlight=False)
             if verbose > 1:
