@@ -21,7 +21,7 @@ class ErrorReport:
 
 ERROR_CODES = {
 	-1: {
-		"message": "Exception Occurred.",
+		'message': 'Exception Occurred.',
 		'description': 'An exception, can be caused by different reasons.',
 	},
 	1: {'message': 'Invalid Syntax.', 'description': 'Caused by improper syntax.'},
