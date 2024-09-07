@@ -46,12 +46,6 @@ def lex_line(line: str):
 	def raise_parse_error(message: str, token_index, error_code=-1):
 		nonlocal error_found
 		error_found = True
-		# result['error'] = {
-		# 	'message': message,
-		# 	'code': error_code,
-		# 	'token_index': token_index - 1,
-		# 	# We subtract one because the char still gets processed after the error is called, incrementing the index by one. (which would be the next index, that we dont want).
-		# }
 		result['error'] = TokenErrorReport(
 			message=message,
 			error_code=error_code,
