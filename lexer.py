@@ -39,6 +39,7 @@ ERROR_CODES = {
 	},
 }
 
+BASE_ARITHMETIC_OPERATIONS = ['addition', 'subtraction', 'multiplication', 'division']
 
 def lex_line(line: str):
 	result = {}
@@ -110,16 +111,7 @@ def lex_line(line: str):
 				append_token()
 			else:
 				token_sequence.append(char)
-		if flag == 'addition':
-			token_sequence.append(char)
-			append_token()
-		if flag == 'subtraction':
-			token_sequence.append(char)
-			append_token()
-		if flag == 'multiplication':
-			token_sequence.append(char)
-			append_token()
-		if flag == 'division':
+		if flag in BASE_ARITHMETIC_OPERATIONS:
 			token_sequence.append(char)
 			append_token()
 		if flag == 'assignment':  # Handles both assignment and comparison
