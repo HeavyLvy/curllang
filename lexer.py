@@ -20,8 +20,8 @@ class TokenErrorReport:
 
 @dataclass
 class ErrorCode:
-    message: str
-    description: str
+	message: str
+	description: str
 
 
 ERROR_CODES = {
@@ -40,9 +40,8 @@ def lex_line(line: str):
 	error_found = False
 	parsed_tokens = []
 	token_sequence = []
-	flag = None
+	token_type = None
 
- 
 	def raise_parse_error(message: str, token_index, error_code=-1):
 		nonlocal error_found
 		error_found = True
@@ -53,87 +52,84 @@ def lex_line(line: str):
 		)
 		error_code = error_code
 
- 
 	found_end_of_string = False
 	for i, char in enumerate(line):
 		if error_found:
 			break
 
-
 		def append_token():
-			nonlocal token_sequence, flag
+			nonlocal token_sequence, token_type
 			value = ''.join(token_sequence)
-			parsed_tokens.append(Token(flag, value))
-			flag = None
+			parsed_tokens.append(Token(token_type, value))
+			token_type = None
 			token_sequence = []
 
-
 		# Set Flags
-		if not flag:
+		if not token_type:
 			if char in string.ascii_letters:
-				flag = 'identifier'
+				token_type = 'identifier'
 			if char in string.digits:
-				flag = 'integer'
+				token_type = 'integer'
 			if char == '+':
-				flag = 'addition'
+				token_type = 'addition'
 			if char == '-':
-				flag = 'subtraction'
+				token_type = 'subtraction'
 			if char == '*':
-				flag = 'multiplication'
+				token_type = 'multiplication'
 			if char == '/':
-				flag = 'division'
+				token_type = 'division'
 			if char == '=':
-				flag = 'assignment'
+				token_type = 'assignment'
 			if char == '"':
-				flag = 'string_start'
+				token_type = 'string_start'
 
 		# Handle Flags
-		if flag == 'identifier':
+		if token_type == 'identifier':
 			if char not in string.ascii_letters + '_' and char not in string.digits:
 				append_token()
 			else:
 				token_sequence.append(char)
-		if flag == 'integer':
+		if token_type == 'integer':
 			if char not in string.digits or char == '.':
 				if char == '.':
-					flag = 'float'
+					token_type = 'float'
 				else:
 					append_token()
 			else:
 				token_sequence.append(char)
-		if flag == 'float':
+		if token_type == 'float':
 			if token_sequence.count('.') > 1:
 				raise_parse_error('No such data type with more than 1 dot.', i, 3)
 			if char not in string.digits and char != '.':
 				append_token()
 			else:
 				token_sequence.append(char)
-		if flag in BASE_ARITHMETIC_OPERATIONS:
+		if token_type in BASE_ARITHMETIC_OPERATIONS:
 			token_sequence.append(char)
 			append_token()
-		if flag == 'assignment':  # Handles both assignment and comparison
+		if token_type == 'assignment':  # Handles both assignment and comparison
 			if char != '=':
 				if len(token_sequence) == 2:
-					flag = 'comparison'
+					token_type = 'comparison'
 				elif len(token_sequence) > 2:
 					raise_parse_error('No such operation for more than 2 equal signs', i, 2)
 
 				append_token()
 			else:
 				token_sequence.append(char)
-		if flag == 'string':
+		if token_type == 'string':
 			if char != '"':
 				token_sequence.append(char)
 			else:
 				found_end_of_string = True
 				append_token()
-		if flag == 'string_start':
+		if token_type == 'string_start':
 			if char != '"':
-				flag = 'string'
+				token_type = 'string'
 				token_sequence.append(char)
 
-	if flag:
-		if flag == 'string' and not found_end_of_string:
+	if token_type:
+		if token_type == 'string' and not found_end_of_string:
 			raise_parse_error(
 				'Expected an ending qoute',
 				i + 2,
