@@ -27,25 +27,25 @@ class ErrorCode:
 
 ERROR_CODES = {
 	-1: ErrorCode(
-     'Exception Occurred.',
-    'An exception, can be caused by different reasons.'
-    ),
+		'Exception Occurred.',
+		'An exception, can be caused by different reasons.'
+	),
 	1: ErrorCode(
-     'Invalid Syntax.',
-     'Caused by improper syntax.'
-     ),
+		'Invalid Syntax.',
+		'Caused by improper syntax.'
+	),
 	2: ErrorCode(
 		'Invalid Syntax.',
 		'Caused if there is more than 2 equal sign in the expression.',
 	),
 	3: ErrorCode(
-     'Invalid Syntax.',
-     'Caused if there is more than 1 dot found in a floating number.'
-     ),
+		'Invalid Syntax.',
+		'Caused if there is more than 1 dot found in a floating number.'
+	),
 	4: ErrorCode(
-     'Invalid Syntax.',
-     'Caused if the ending qoute was not found.'
-     ),
+		'Invalid Syntax.',
+		'Caused if the ending qoute was not found.'
+	),
 }
 
 BASE_ARITHMETIC_OPERATIONS = ['addition', 'subtraction', 'multiplication', 'division']
