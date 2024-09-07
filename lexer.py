@@ -25,26 +25,6 @@ class ErrorCode:
 
 
 ERROR_CODES = {
-	-1: {
-		'message': 'Exception Occurred.',
-		'description': 'An exception, can be caused by different reasons.',
-	},
-	1: {'message': 'Invalid Syntax.', 'description': 'Caused by improper syntax.'},
-	2: {
-		'message': 'Invalid Syntax.',
-		'description': 'Caused if there is more than 2 equal signs in the expression eg "x === y", "1 ======== 53".',
-	},
-	3: {
-		'message': 'Invalid Syntax.',
-		'description': 'Caused if there is more than 1 dot found in a floating number.',
-	},
-	4: {
-		'message': 'Invalid Syntax.',
-		'description': 'Caused if the ending qoute was not found.',
-	},
-}
-
-ERROR_CODES = {
 	-1: ErrorCode('Exception Occurred.', 'An exception, can be caused by different reasons.'),
 	1: ErrorCode('Invalid Syntax.', 'Caused by improper syntax.'),
 	2: ErrorCode('Invalid Syntax.', 'Caused if there is more than 2 equal sign in the expression eg "x === y", "1 ======== 53".'),
