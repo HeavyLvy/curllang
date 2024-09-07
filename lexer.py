@@ -13,10 +13,15 @@ class Token:
 
 
 @dataclass
-class ErrorReport:
+class TokenErrorReport:
 	message: str
-	description: str
+	error_code: int
 	token_index: int
+
+@dataclass
+class ErrorCode:
+    message: str
+    description: str
 
 
 ERROR_CODES = {
@@ -39,6 +44,14 @@ ERROR_CODES = {
 	},
 }
 
+ERROR_CODES = {
+	-1: ErrorCode('Exception Occurred.', 'An exception, can be caused by different reasons.'),
+	1: ErrorCode('Invalid Syntax.', 'Caused by improper syntax.'),
+	2: ErrorCode('Invalid Syntax.', 'Caused if there is more than 2 equal sign in the expression eg "x === y", "1 ======== 53".'),
+	3: ErrorCode('Invalid Syntax.', 'Caused if there is more than 1 dot found in a floating number.'),
+	4: ErrorCode('Invalid Syntax.', 'Caused if the ending qoute was not found.'),
+}
+
 BASE_ARITHMETIC_OPERATIONS = ['addition', 'subtraction', 'multiplication', 'division']
 
 
@@ -53,12 +66,17 @@ def lex_line(line: str):
 	def raise_parse_error(message: str, token_index, error_code=-1):
 		nonlocal error_found
 		error_found = True
-		result['error'] = {
-			'message': message,
-			'code': error_code,
-			'token_index': token_index - 1,
-			# We subtract one because the char still gets processed after the error is called, incrementing the index by one. (which would be the next index, that we dont want).
-		}
+		# result['error'] = {
+		# 	'message': message,
+		# 	'code': error_code,
+		# 	'token_index': token_index - 1,
+		# 	# We subtract one because the char still gets processed after the error is called, incrementing the index by one. (which would be the next index, that we dont want).
+		# }
+		result['error'] = TokenErrorReport(
+			message=message,
+			error_code=error_code,
+			token_index=token_index - 1
+		)
 		error_code = error_code
 
  
@@ -169,22 +187,23 @@ def output_parsing_errors(errors, verbose: int):
 		highlight=False,
 	)
 	for error_index, error in enumerate(errors):
-		token_index = error['error']['token_index']
-
+		token_index = error['error'].token_index
+		error_code = error['error'].error_code
+  
 		console.print(
-			f"[[white]{error_index}[red]] {ERROR_CODES[error['error']['code']]['message']} Error Code: {error['error']['code']}",
+			f"[[white]{error_index}[red]] {ERROR_CODES[error_code].message} Error Code: {error_code}",
 			style='bold red',
 			highlight=False,
 		)
 		if verbose > 0:
 			console.print(
-				f"    {error['error']['message']}",
+				f"    {error['error'].message}",
 				style='bold red',
 				highlight=False,
 			)
 		if verbose > 1:
 			console.print(
-				f"    {ERROR_CODES[error['error']['code']]['description']}",
+				f"    {ERROR_CODES[error_code].description}",
 				style='bold red',
 				highlight=False,
 			)
