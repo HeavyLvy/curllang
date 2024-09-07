@@ -163,7 +163,7 @@ def output_parsing_errors(errors, verbose: int):
 	for error_index, error in enumerate(errors):
 		token_index = error['error'].token_index
 		error_code = error['error'].error_code
-  
+
 		console.print(
 			f"[[white]{error_index}[red]] {ERROR_CODES[error_code].message} Error Code: {error_code}",
 			style='bold red',
