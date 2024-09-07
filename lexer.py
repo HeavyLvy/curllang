@@ -18,6 +18,7 @@ class TokenErrorReport:
 	error_code: int
 	token_index: int
 
+
 @dataclass
 class ErrorCode:
 	message: str
