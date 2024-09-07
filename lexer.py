@@ -50,7 +50,6 @@ def lex_line(line: str):
 			error_code=error_code,
 			token_index=token_index - 1
 		)
-		error_code = error_code
 
 	found_end_of_string = False
 	for i, char in enumerate(line):
