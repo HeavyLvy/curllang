@@ -41,6 +41,7 @@ ERROR_CODES = {
 
 BASE_ARITHMETIC_OPERATIONS = ['addition', 'subtraction', 'multiplication', 'division']
 
+
 def lex_line(line: str):
 	result = {}
 	error_found = False
@@ -48,6 +49,7 @@ def lex_line(line: str):
 	token_sequence = []
 	flag = None
 
+ 
 	def raise_parse_error(message: str, token_index, error_code=-1):
 		nonlocal error_found
 		error_found = True
@@ -59,10 +61,12 @@ def lex_line(line: str):
 		}
 		error_code = error_code
 
+ 
 	found_end_of_string = False
 	for i, char in enumerate(line):
 		if error_found:
 			break
+
 
 		def append_token():
 			nonlocal token_sequence, flag
@@ -70,6 +74,7 @@ def lex_line(line: str):
 			parsed_tokens.append(Token(flag, value))
 			flag = None
 			token_sequence = []
+
 
 		# Set Flags
 		if not flag:
