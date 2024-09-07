@@ -35,7 +35,7 @@ ERROR_CODES = {
 	},
 	4: {
 		'message': 'Invalid Syntax.',
-		'description': 'Caused if ending qoute was not found.',
+		'description': 'Caused if the ending qoute was not found.',
 	},
 }
 
