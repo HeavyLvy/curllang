@@ -25,14 +25,6 @@ class ErrorRegistry:
         return self.errors[error_code]
 
 
-def get_last_five_lines(text: str):
-    lines = text.splitlines()
-    if len(lines) > 5:
-        return '\n'.join(lines[-5:])
-    else:
-        return text
-
-
 error_registry = ErrorRegistry()
 
 error_registry.add_error(-1, Error('Exception Occurred.', 'An exception, can be caused by different reasons.'))

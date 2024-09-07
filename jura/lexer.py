@@ -2,7 +2,9 @@ import string
 from rich.console import Console
 from rich.syntax import Syntax
 from dataclasses import dataclass
-import common
+
+from . import common
+from . import error
 
 console = Console()
 
@@ -12,14 +14,13 @@ class Token:
     token: str
     value: str
 
+error_registry = error.ErrorRegistry()
 
-error_registry = common.ErrorRegistry()
-
-error_registry.add_error(-1, common.Error('Exception Occurred.', 'An exception, can be caused by different reasons.'))
-error_registry.add_error(1, common.Error('Invalid Syntax.', 'Caused by improper syntax.'))
-error_registry.add_error(2, common.Error('Invalid Syntax.', 'Caused if there is more than 2 equal sign in the expression.'))
-error_registry.add_error(3, common.Error('Invalid Syntax.', 'Caused if there is more than 1 dot found in a floating number.'))
-error_registry.add_error(4, common.Error('Invalid Syntax.', 'Caused if the ending qoute was not found.'))
+error_registry.add_error(-1, error.Error('Exception Occurred.', 'An exception, can be caused by different reasons.'))
+error_registry.add_error(1, error.Error('Invalid Syntax.', 'Caused by improper syntax.'))
+error_registry.add_error(2, error.Error('Invalid Syntax.', 'Caused if there is more than 2 equal sign in the expression.'))
+error_registry.add_error(3, error.Error('Invalid Syntax.', 'Caused if there is more than 1 dot found in a floating number.'))
+error_registry.add_error(4, error.Error('Invalid Syntax.', 'Caused if the ending qoute was not found.'))
 
 BASE_ARITHMETIC_OPERATIONS = ['addition', 'subtraction', 'multiplication', 'division']
 
@@ -34,7 +35,7 @@ def lex_line(line: str):
     def raise_parse_error(message: str, token_index, error_code=-1):
         nonlocal error_found
         error_found = True
-        result['error'] = common.TokenErrorReport(
+        result['error'] = error.TokenErrorReport(
             message=message, error_code=error_code, token_index=token_index - 1
         )
 
