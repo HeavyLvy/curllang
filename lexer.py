@@ -2,6 +2,7 @@ import string
 from rich.console import Console
 from rich.syntax import Syntax
 from dataclasses import dataclass
+import common
 
 console = Console()
 
@@ -12,37 +13,13 @@ class Token:
     value: str
 
 
-@dataclass
-class TokenErrorReport:
-    message: str
-    error_code: int
-    token_index: int
+error_registry = common.ErrorRegistry()
 
-
-@dataclass
-class Error:
-    message: str
-    description: str
-
-
-class ErrorRegistry:
-    def __init__(self):
-        self.errors = {}
-
-    def add_error(self, error_code: int, error: Error):
-        self.errors[error_code] = error
-
-    def get_error(self, error_code: int) -> Error:
-        return self.errors[error_code]
-
-
-error_registry = ErrorRegistry()
-
-error_registry.add_error(-1, Error('Exception Occurred.', 'An exception, can be caused by different reasons.'))
-error_registry.add_error(1, Error('Invalid Syntax.', 'Caused by improper syntax.'))
-error_registry.add_error(2, Error('Invalid Syntax.', 'Caused if there is more than 2 equal sign in the expression.'))
-error_registry.add_error(3, Error('Invalid Syntax.', 'Caused if there is more than 1 dot found in a floating number.'))
-error_registry.add_error(4, Error('Invalid Syntax.', 'Caused if the ending qoute was not found.'))
+error_registry.add_error(-1, common.Error('Exception Occurred.', 'An exception, can be caused by different reasons.'))
+error_registry.add_error(1, common.Error('Invalid Syntax.', 'Caused by improper syntax.'))
+error_registry.add_error(2, common.Error('Invalid Syntax.', 'Caused if there is more than 2 equal sign in the expression.'))
+error_registry.add_error(3, common.Error('Invalid Syntax.', 'Caused if there is more than 1 dot found in a floating number.'))
+error_registry.add_error(4, common.Error('Invalid Syntax.', 'Caused if the ending qoute was not found.'))
 
 BASE_ARITHMETIC_OPERATIONS = ['addition', 'subtraction', 'multiplication', 'division']
 
@@ -57,7 +34,7 @@ def lex_line(line: str):
     def raise_parse_error(message: str, token_index, error_code=-1):
         nonlocal error_found
         error_found = True
-        result['error'] = TokenErrorReport(
+        result['error'] = common.TokenErrorReport(
             message=message, error_code=error_code, token_index=token_index - 1
         )
 
@@ -151,14 +128,6 @@ def lex_line(line: str):
     return result
 
 
-def get_last_five_lines(text: str):
-    lines = text.splitlines()
-    if len(lines) > 5:
-        return '\n'.join(lines[-5:])
-    else:
-        return text
-
-
 def output_parsing_errors(errors, verbose: int):
     print(errors)
     console.print(
@@ -205,7 +174,7 @@ def lex_code(input_code: str, verbose: int = 0):
 
         if parsed_line.get('error'):
             syntax = Syntax(
-                get_last_five_lines(processed_code[1:-1]),
+                common.get_last_five_lines(processed_code[1:-1]),
                 'lua',
                 theme='monokai',
                 line_numbers=True,
