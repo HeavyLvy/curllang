@@ -26,11 +26,26 @@ class ErrorCode:
 
 
 ERROR_CODES = {
-	-1: ErrorCode('Exception Occurred.', 'An exception, can be caused by different reasons.'),
-	1: ErrorCode('Invalid Syntax.', 'Caused by improper syntax.'),
-	2: ErrorCode('Invalid Syntax.', 'Caused if there is more than 2 equal sign in the expression eg "x === y", "1 ======== 53".'),
-	3: ErrorCode('Invalid Syntax.', 'Caused if there is more than 1 dot found in a floating number.'),
-	4: ErrorCode('Invalid Syntax.', 'Caused if the ending qoute was not found.'),
+	-1: ErrorCode(
+     'Exception Occurred.',
+    'An exception, can be caused by different reasons.'
+    ),
+	1: ErrorCode(
+     'Invalid Syntax.',
+     'Caused by improper syntax.'
+     ),
+	2: ErrorCode(
+		'Invalid Syntax.',
+		'Caused if there is more than 2 equal sign in the expression.',
+	),
+	3: ErrorCode(
+     'Invalid Syntax.',
+     'Caused if there is more than 1 dot found in a floating number.'
+     ),
+	4: ErrorCode(
+     'Invalid Syntax.',
+     'Caused if the ending qoute was not found.'
+     ),
 }
 
 BASE_ARITHMETIC_OPERATIONS = ['addition', 'subtraction', 'multiplication', 'division']
@@ -47,9 +62,7 @@ def lex_line(line: str):
 		nonlocal error_found
 		error_found = True
 		result['error'] = TokenErrorReport(
-			message=message,
-			error_code=error_code,
-			token_index=token_index - 1
+			message=message, error_code=error_code, token_index=token_index - 1
 		)
 
 	found_end_of_string = False
@@ -161,7 +174,7 @@ def output_parsing_errors(errors, verbose: int):
 		error_code = error['error'].error_code
 
 		console.print(
-			f"[[white]{error_index}[red]] {ERROR_CODES[error_code].message} Error Code: {error_code}",
+			f'[[white]{error_index}[red]] {ERROR_CODES[error_code].message} Error Code: {error_code}',
 			style='bold red',
 			highlight=False,
 		)
@@ -173,7 +186,7 @@ def output_parsing_errors(errors, verbose: int):
 			)
 		if verbose > 1:
 			console.print(
-				f"    {ERROR_CODES[error_code].description}",
+				f'    {ERROR_CODES[error_code].description}',
 				style='bold red',
 				highlight=False,
 			)
