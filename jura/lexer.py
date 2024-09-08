@@ -17,10 +17,13 @@ class Token:
 
 error_registry = error.ErrorRegistry()
 
-error_registry.add_error(-1, error.ErrorType('Exception Occurred.', 'An exception, can be caused by different reasons.'))
+error_registry.add_error(-1,
+                         error.ErrorType('Exception Occurred.', 'An exception, can be caused by different reasons.'))
 error_registry.add_error(1, error.ErrorType('Invalid Syntax.', 'Caused by improper syntax.'))
-error_registry.add_error(2, error.ErrorType('Invalid Syntax.', 'Caused if there is more than 2 equal sign in the expression.'))
-error_registry.add_error(3, error.ErrorType('Invalid Syntax.', 'Caused if there is more than 1 dot found in a floating number.'))
+error_registry.add_error(2, error.ErrorType('Invalid Syntax.',
+                                            'Caused if there is more than 2 equal sign in the expression.'))
+error_registry.add_error(3, error.ErrorType('Invalid Syntax.',
+                                            'Caused if there is more than 1 dot found in a floating number.'))
 error_registry.add_error(4, error.ErrorType('Invalid Syntax.', 'Caused if the ending qoute was not found.'))
 
 BASE_ARITHMETIC_OPERATIONS: list[str] = ['addition', 'subtraction', 'multiplication', 'division']
@@ -71,11 +74,11 @@ def lex_line(line: str):
             token_type = None
             token_sequence = []
 
-        # Set Flags
+        # Set token type
         if not token_type:
             token_type = set_flag(char)
 
-        # Handle Flags
+        # Process token types
         if token_type == 'identifier':
             if char not in string.ascii_letters + '_' and char not in string.digits:
                 append_token()
