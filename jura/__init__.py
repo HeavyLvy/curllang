@@ -1,1 +1,2 @@
-from .lexer import lex_code
+from .lexer import Lexer
+from . import error
