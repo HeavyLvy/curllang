@@ -53,14 +53,3 @@ class ErrorRegistry:
         if error_code not in self.errors:
             raise ErrorTypeNotFound(f'Error code: "{error_code}" was not found.')
         return self.errors[error_code]
-
-
-error_registry = ErrorRegistry()
-
-error_registry.add_error(-1, ErrorType('Exception Occurred.', 'An exception, can be caused by different reasons.'))
-error_registry.add_error(1, ErrorType('Invalid Syntax.', 'Caused by improper syntax.'))
-error_registry.add_error(2,
-                         ErrorType('Invalid Syntax.', 'Caused if there is more than 2 equal sign in the expression.'))
-error_registry.add_error(3,
-                         ErrorType('Invalid Syntax.', 'Caused if there is more than 1 dot found in a floating number.'))
-error_registry.add_error(4, ErrorType('Invalid Syntax.', 'Caused if the ending qoute was not found.'))
