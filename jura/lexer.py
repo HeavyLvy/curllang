@@ -14,23 +14,24 @@ class Token:
     token: str
     value: str
 
+
 error_registry = error.ErrorRegistry()
 
-error_registry.add_error(-1, error.Error('Exception Occurred.', 'An exception, can be caused by different reasons.'))
-error_registry.add_error(1, error.Error('Invalid Syntax.', 'Caused by improper syntax.'))
-error_registry.add_error(2, error.Error('Invalid Syntax.', 'Caused if there is more than 2 equal sign in the expression.'))
-error_registry.add_error(3, error.Error('Invalid Syntax.', 'Caused if there is more than 1 dot found in a floating number.'))
-error_registry.add_error(4, error.Error('Invalid Syntax.', 'Caused if the ending qoute was not found.'))
+error_registry.add_error(-1, error.ErrorType('Exception Occurred.', 'An exception, can be caused by different reasons.'))
+error_registry.add_error(1, error.ErrorType('Invalid Syntax.', 'Caused by improper syntax.'))
+error_registry.add_error(2, error.ErrorType('Invalid Syntax.', 'Caused if there is more than 2 equal sign in the expression.'))
+error_registry.add_error(3, error.ErrorType('Invalid Syntax.', 'Caused if there is more than 1 dot found in a floating number.'))
+error_registry.add_error(4, error.ErrorType('Invalid Syntax.', 'Caused if the ending qoute was not found.'))
 
-BASE_ARITHMETIC_OPERATIONS = ['addition', 'subtraction', 'multiplication', 'division']
+BASE_ARITHMETIC_OPERATIONS: list[str] = ['addition', 'subtraction', 'multiplication', 'division']
 
 
 def lex_line(line: str):
-    result = {}
-    error_found = False
-    parsed_tokens = []
-    token_sequence = []
-    token_type = None
+    result: dict = {}
+    error_found: bool = False
+    parsed_tokens: list[Token] = []
+    token_sequence: list[str] = []
+    token_type: str | None = None
 
     def raise_parse_error(message: str, token_index, error_code=-1):
         nonlocal error_found
@@ -166,7 +167,7 @@ def output_parsing_errors(errors, verbose: int):
 
 def lex_code(input_code: str, verbose: int = 0):
     processed_code = ''
-    found_errors = []
+    found_errors: list = []
 
     # Go through each line of the code and parse and put any errors into the found errors list
     for line_number, line_content in enumerate(input_code.splitlines()):
