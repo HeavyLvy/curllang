@@ -137,8 +137,8 @@ def output_parsing_errors(errors, verbose: int):
         highlight=False,
     )
     for error_index, error in enumerate(errors):
-        token_index = error['error'].token_index
-        error_code = error['error'].error_code
+        token_index = error.error.token_index
+        error_code = error.error.error_code
 
         console.print(
             f'[[white]{error_index}[red]] {error_registry.get_error(error_code).message} Error Code: {error_code}',
@@ -148,7 +148,7 @@ def output_parsing_errors(errors, verbose: int):
         )
         if verbose > 0:
             console.print(
-                f"    {error['error'].message}",
+                f"    {error.error.message}",
                 style='bold red',
                 highlight=False,
             )
@@ -158,16 +158,16 @@ def output_parsing_errors(errors, verbose: int):
                 style='bold red',
                 highlight=False,
             )
-        console.print(error['code'])
+        console.print(error.code)
         console.print(
-            ' ' * (token_index + 3 + len(str(error['line']))) + '^',
+            ' ' * (token_index + 3 + len(str(error.line_number))) + '^',
             style='bold yellow',
         )
 
 
 def lex_code(input_code: str, verbose: int = 0):
     processed_code = ''
-    found_errors: list = []
+    found_errors: list[error.LexerErrorReport] = []
 
     # Go through each line of the code and parse and put any errors into the found errors list
     for line_number, line_content in enumerate(input_code.splitlines()):
@@ -186,7 +186,11 @@ def lex_code(input_code: str, verbose: int = 0):
                 else 1,
             )
             found_errors.append(
-                {'error': parsed_line['error'], 'code': syntax, 'line': line_number}
+                error.LexerErrorReport(
+                    parsed_line['error'],
+                    syntax,
+                    line_number
+                )
             )
         elif parsed_line['tokens']:
             console.print(parsed_line['tokens'])

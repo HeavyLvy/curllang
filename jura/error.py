@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from rich.syntax import Syntax
 
 
 @dataclass
@@ -12,6 +13,13 @@ class TokenErrorReport:
 class ErrorType:
     message: str
     description: str
+
+
+@dataclass
+class LexerErrorReport:
+    error: ErrorType
+    code: Syntax
+    line_number: int
 
 
 class ErrorTypeNotFound(Exception):
@@ -51,5 +59,5 @@ class ErrorRegistry:
         :rtype: ErrorType
         """
         if error_code not in self.errors:
-            raise ErrorTypeNotFound(f'Error code: "{error_code}" was not found.')
+            raise ValueError(f'Error code: "{error_code}" was not found.')
         return self.errors[error_code]
