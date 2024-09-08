@@ -1,4 +1,9 @@
 # Jura
+## What is Jura
+Jura is a interpreted programming language focusing on simplicity and user experience.
+## Important
+Jura is currently under development and the interpreter is not yet finished.  
+There is no working parser so there is no way to execute code.
 ## To get started
 ### - Clone the repository
 ```bash
@@ -24,3 +29,5 @@ pip install -r requirements
 ## Requirements
 - Python >= 3.12
 - Git
+## Why the name
+the name Jura comes from the Jura mountain range located in Europe.
