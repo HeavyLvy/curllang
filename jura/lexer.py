@@ -26,6 +26,25 @@ error_registry.add_error(4, error.ErrorType('Invalid Syntax.', 'Caused if the en
 BASE_ARITHMETIC_OPERATIONS: list[str] = ['addition', 'subtraction', 'multiplication', 'division']
 
 
+def set_flag(char: str) -> str:
+    if char in string.ascii_letters:
+        return 'identifier'
+    if char in string.digits:
+        return 'integer'
+    if char == '+':
+        return 'addition'
+    if char == '-':
+        return 'subtraction'
+    if char == '*':
+        return 'multiplication'
+    if char == '/':
+        return 'division'
+    if char == '=':
+        return 'assignment'
+    if char == '"':
+        return 'string_start'
+
+
 def lex_line(line: str):
     result: dict = {}
     error_found: bool = False
@@ -54,22 +73,7 @@ def lex_line(line: str):
 
         # Set Flags
         if not token_type:
-            if char in string.ascii_letters:
-                token_type = 'identifier'
-            if char in string.digits:
-                token_type = 'integer'
-            if char == '+':
-                token_type = 'addition'
-            if char == '-':
-                token_type = 'subtraction'
-            if char == '*':
-                token_type = 'multiplication'
-            if char == '/':
-                token_type = 'division'
-            if char == '=':
-                token_type = 'assignment'
-            if char == '"':
-                token_type = 'string_start'
+            token_type = set_flag(char)
 
         # Handle Flags
         if token_type == 'identifier':
